@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { generateTopic, generateScript } from '@/lib/ai/deepseek'
+import { generateTopic, generateScript } from '@/lib/ai/kimi-code'
 import { 
   createTask, 
   getTodayTask, 
