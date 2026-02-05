@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  phone     String?  @unique
+  wechatId  String?  @unique
+  domains   String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  tasks     Task[]
+  settings  UserSettings?
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  
+  title       String
+  domain      String
+  duration    Int
+  difficulty  Difficulty @default(MEDIUM)
+  status      TaskStatus @default(PENDING)
+  
+  script      Script?
+  feedback    TaskFeedback?
+  
+  createdAt   DateTime   @default(now())
+  completedAt DateTime?
+  
+  @@index([userId, status])
+  @@index([userId, createdAt])
+}
+
+model Script {
+  id       String @id @default(cuid())
+  taskId   String @unique
+  task     Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  
+  content  String
+  hooks    Json?
+  keywords Json?
+}
+
+model TaskFeedback {
+  id      String @id @default(cuid())
+  taskId  String @unique
+  task    Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  
+  rating  Int?
+  comment String?
+  skipped Boolean @default(false)
+  reason  String?
+}
+
+model UserSettings {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  pushTime  String   @default("08:00")
+  timezone  String   @default("Asia/Shanghai")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum TaskStatus {
+  PENDING
+  COMPLETED
+  SKIPPED
+}
