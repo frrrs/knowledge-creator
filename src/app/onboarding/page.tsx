@@ -33,9 +33,9 @@ export default function OnboardingPage() {
     // 保存用户选择
     localStorage.setItem('domains', JSON.stringify(selected))
     
-    // 实际应调用API保存
+    // 跳转到功能选择页
     setTimeout(() => {
-      router.push('/')
+      router.push('/features')
     }, 500)
   }
   
