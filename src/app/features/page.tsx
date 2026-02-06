@@ -12,7 +12,8 @@ import {
   ChevronRight,
   Sparkles,
   Flame,
-  Smartphone
+  Smartphone,
+  BarChart
 } from 'lucide-react'
 
 const FEATURES = [
@@ -46,6 +47,14 @@ const FEATURES = [
     description: '一稿多发，自动适配各平台',
     icon: Smartphone,
     color: 'bg-indigo-500',
+    badge: 'NEW'
+  },
+  {
+    id: 'ab-test',
+    name: '标题A/B测试',
+    description: '生成多版本标题，选择最优方案',
+    icon: BarChart,
+    color: 'bg-pink-500',
     badge: 'NEW'
   },
   {
@@ -114,6 +123,9 @@ export default function FeaturesPage() {
         break
       case 'adapt':
         router.push('/adapt')
+        break
+      case 'ab-test':
+        router.push('/titles/ab-test')
         break
       case 'scripts':
         router.push('/scripts')
