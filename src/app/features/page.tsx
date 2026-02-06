@@ -14,7 +14,8 @@ import {
   Flame,
   Smartphone,
   BarChart,
-  ImageIcon
+  ImageIcon,
+  Tag
 } from 'lucide-react'
 
 const FEATURES = [
@@ -64,6 +65,14 @@ const FEATURES = [
     description: '为内容生成专业AI绘图提示词',
     icon: ImageIcon,
     color: 'bg-indigo-600',
+    badge: 'NEW'
+  },
+  {
+    id: 'tags',
+    name: '智能标签提取',
+    description: '自动提取SEO关键词和话题标签',
+    icon: Tag,
+    color: 'bg-teal-500',
     badge: 'NEW'
   },
   {
@@ -138,6 +147,9 @@ export default function FeaturesPage() {
         break
       case 'image-prompt':
         router.push('/images/prompt')
+        break
+      case 'tags':
+        router.push('/tags')
         break
       case 'scripts':
         router.push('/scripts')
