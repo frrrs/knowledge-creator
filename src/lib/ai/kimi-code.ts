@@ -10,26 +10,55 @@ const kimiCode = new OpenAI({
   }
 })
 
+// 检查API配置
+function checkAIConfig() {
+  if (!process.env.KIMI_CODE_API_KEY) {
+    throw new Error('KIMI_CODE_API_KEY 未配置')
+  }
+}
+
 export async function generateScript(params: {
   topic: string
   domain: string
   duration: number
 }) {
+  // 检查配置
+  checkAIConfig()
+  
+  console.log('[AI] Generating script for topic:', params.topic)
+  
   try {
+    const prompt = buildPrompt(params)
+    console.log('[AI] Prompt length:', prompt.length)
+    
     const response = await kimiCode.chat.completions.create({
       model: 'kimi-for-coding',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: buildPrompt(params) }
+        { role: 'user', content: prompt }
       ],
       temperature: 0.7,
-      max_tokens: 1500,
+      max_tokens: 2000,
     })
     
     const content = response.choices[0].message.content || ''
-    return parseScript(content)
+    console.log('[AI] Response length:', content.length)
+    
+    const parsed = parseScript(content)
+    
+    // 验证生成的脚本是否包含主题关键词
+    const topicKeywords = params.topic.split(/\s+/)
+    const hasTopicReference = topicKeywords.some(kw => 
+      parsed.content.toLowerCase().includes(kw.toLowerCase())
+    )
+    
+    if (!hasTopicReference && topicKeywords.length > 0) {
+      console.warn('[AI] Generated script may not reference topic:', params.topic)
+    }
+    
+    return parsed
   } catch (error) {
-    console.error('AI generate script error:', error)
+    console.error('[AI] Generate script error:', error)
     throw error
   }
 }

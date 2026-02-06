@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateTopic, generateScript } from '@/lib/ai/kimi-code'
+import { prisma } from '@/lib/db'
 import { 
   createTask, 
   getTodayTask, 
@@ -29,8 +30,17 @@ export async function POST(request: NextRequest) {
       return successResponse(existingTask, '今日任务已生成')
     }
     
+    console.log('[API] Generating task for domains:', domains)
+    
     // AI生成选题
-    const topicData = await generateTopic({ domains })
+    let topicData
+    try {
+      topicData = await generateTopic({ domains })
+      console.log('[API] Generated topic:', topicData.title)
+    } catch (aiError) {
+      console.error('[API] AI topic generation failed:', aiError)
+      return errorResponse('AI选题生成失败：' + (aiError instanceof Error ? aiError.message : '未知错误'), 500)
+    }
     
     // 创建任务
     const task = await createTask({
@@ -41,12 +51,23 @@ export async function POST(request: NextRequest) {
       difficulty: topicData.difficulty || 'MEDIUM'
     })
     
+    console.log('[API] Created task:', task.id)
+    
     // AI生成脚本
-    const scriptData = await generateScript({
-      topic: topicData.title,
-      domain: topicData.domain,
-      duration: topicData.duration || 5
-    })
+    let scriptData
+    try {
+      scriptData = await generateScript({
+        topic: topicData.title,
+        domain: topicData.domain,
+        duration: topicData.duration || 5
+      })
+      console.log('[API] Generated script, length:', scriptData.content.length)
+    } catch (aiError) {
+      console.error('[API] AI script generation failed:', aiError)
+      // 脚本生成失败但任务已创建，删除任务
+      await prisma.task.delete({ where: { id: task.id } })
+      return errorResponse('AI脚本生成失败：' + (aiError instanceof Error ? aiError.message : '未知错误'), 500)
+    }
     
     // 保存脚本
     await createScript(
@@ -61,8 +82,8 @@ export async function POST(request: NextRequest) {
     return successResponse(fullTask)
     
   } catch (error) {
-    console.error('Generate task error:', error)
-    return errorResponse('Failed to generate task', 500)
+    console.error('[API] Generate task error:', error)
+    return errorResponse('生成任务失败：' + (error instanceof Error ? error.message : '未知错误'), 500)
   }
 }
 
