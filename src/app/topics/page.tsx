@@ -82,7 +82,7 @@ export default function TopicsPage() {
             <div 
               key={topic.id}
               className="bg-white rounded-xl p-4 border border-gray-100 hover:border-blue-300 transition cursor-pointer"
-              onClick={() => router.push('/dashboard')}
+              onClick={() => router.push(`/topics/${topic.id}`)}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
