@@ -11,7 +11,8 @@ import {
   Settings,
   ChevronRight,
   Sparkles,
-  Flame
+  Flame,
+  Smartphone
 } from 'lucide-react'
 
 const FEATURES = [
@@ -38,6 +39,14 @@ const FEATURES = [
     icon: Lightbulb,
     color: 'bg-amber-500',
     badge: 'AI 驱动'
+  },
+  {
+    id: 'adapt',
+    name: '多平台适配',
+    description: '一稿多发，自动适配各平台',
+    icon: Smartphone,
+    color: 'bg-indigo-500',
+    badge: 'NEW'
   },
   {
     id: 'scripts',
@@ -102,6 +111,9 @@ export default function FeaturesPage() {
         break
       case 'topics':
         router.push('/topics')
+        break
+      case 'adapt':
+        router.push('/adapt')
         break
       case 'scripts':
         router.push('/scripts')
