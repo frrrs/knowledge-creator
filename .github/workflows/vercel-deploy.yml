@@ -25,6 +25,8 @@ jobs:
       
       - name: Generate Prisma Client
         run: npx prisma generate
+        env:
+          DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/knowledge_creator
       
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
