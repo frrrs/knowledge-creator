@@ -1,9 +1,6 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ]
+  "installCommand": "npm install --ignore-scripts",
+  "buildCommand": "npx prisma generate && npm run build",
+  "framework": "nextjs"
 }
