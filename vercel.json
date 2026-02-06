@@ -5,8 +5,6 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "env": {
-    "KIMI_CODE_API_KEY": "@kimi_code_api_key",
-    "KIMI_CODE_BASE_URL": "https://api.kimi.com/coding/v1",
-    "JWT_SECRET": "@jwt_secret"
+    "KIMI_CODE_BASE_URL": "https://api.kimi.com/coding/v1"
   }
 }
