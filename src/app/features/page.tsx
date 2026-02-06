@@ -10,10 +10,19 @@ import {
   BarChart3, 
   Settings,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Flame
 } from 'lucide-react'
 
 const FEATURES = [
+  {
+    id: 'hot-topics',
+    name: '热点追踪',
+    description: '实时热点智能匹配你的领域',
+    icon: Flame,
+    color: 'bg-red-500',
+    badge: 'NEW'
+  },
   {
     id: 'today',
     name: '今日创作',
@@ -85,6 +94,9 @@ export default function FeaturesPage() {
   
   const handleFeatureClick = (featureId: string) => {
     switch (featureId) {
+      case 'hot-topics':
+        router.push('/hot-topics')
+        break
       case 'today':
         router.push('/dashboard')
         break
