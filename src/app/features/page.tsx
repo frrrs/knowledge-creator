@@ -13,7 +13,8 @@ import {
   Sparkles,
   Flame,
   Smartphone,
-  BarChart
+  BarChart,
+  ImageIcon
 } from 'lucide-react'
 
 const FEATURES = [
@@ -55,6 +56,14 @@ const FEATURES = [
     description: '生成多版本标题，选择最优方案',
     icon: BarChart,
     color: 'bg-pink-500',
+    badge: 'NEW'
+  },
+  {
+    id: 'image-prompt',
+    name: 'AI配图提示词',
+    description: '为内容生成专业AI绘图提示词',
+    icon: ImageIcon,
+    color: 'bg-indigo-600',
     badge: 'NEW'
   },
   {
@@ -126,6 +135,9 @@ export default function FeaturesPage() {
         break
       case 'ab-test':
         router.push('/titles/ab-test')
+        break
+      case 'image-prompt':
+        router.push('/images/prompt')
         break
       case 'scripts':
         router.push('/scripts')
