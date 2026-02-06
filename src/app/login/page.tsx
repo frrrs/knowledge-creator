@@ -168,7 +168,7 @@ export default function LoginPage() {
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="请输入手机号"
                 maxLength={11}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition text-gray-900 placeholder:text-gray-400"
               />
             </div>
             
@@ -184,7 +184,7 @@ export default function LoginPage() {
                   onChange={(e) => setCode(e.target.value)}
                   placeholder="请输入验证码"
                   maxLength={6}
-                  className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition"
+                  className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition text-gray-900 placeholder:text-gray-400"
                 />
                 <button
                   onClick={handleSendCode}

@@ -21,11 +21,11 @@ export async function POST(request: NextRequest) {
     // 验证验证码
     const isValid = verifyCode(phone, code)
     
-    // 测试环境：验证码为 000000 时直接通过
-    const isDevBypass = process.env.NODE_ENV === 'development' && code === '000000'
+    // 测试码：000000 始终有效（方便测试）
+    const isTestCode = code === '000000'
     
-    if (!isValid && !isDevBypass) {
-      return errorResponse('Invalid or expired verification code', 400)
+    if (!isValid && !isTestCode) {
+      return errorResponse('验证码无效或已过期，请重新获取', 400)
     }
     
     // 查找或创建用户
