@@ -141,7 +141,7 @@ export default function Home() {
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-pb">
         <div className="max-w-md mx-auto px-4 py-2 flex justify-around">
           <Link 
-            href="/" 
+            href="/dashboard" 
             className="flex flex-col items-center gap-1 py-2 text-blue-600"
           >
             <span className="text-2xl">📋</span>
