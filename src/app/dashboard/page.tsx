@@ -20,7 +20,8 @@ export default function Home() {
     taskLoading,
     generateTask,
     completeTask,
-    skipTask
+    skipTask,
+    rateTask
   } = useAppStore()
   
   // 检查登录状态
@@ -57,7 +58,17 @@ export default function Home() {
       console.error('Skip error:', error)
     }
   }
-  
+
+  const handleRate = async (rating: number, comment?: string) => {
+    if (!currentTask) return
+    try {
+      await rateTask(currentTask.id, rating, comment)
+    } catch (error) {
+      console.error('Rate error:', error)
+      throw error
+    }
+  }
+
   // 计算连续打卡天数（简化版）
   const streak = currentTask?.status === 'COMPLETED' ? 1 : 0
   
@@ -100,9 +111,11 @@ export default function Home() {
               duration={currentTask.duration}
               difficulty={currentTask.difficulty}
               status={currentTask.status}
+              userRating={currentTask.rating}
               onComplete={handleComplete}
               onSkip={handleSkip}
               onViewScript={() => setShowScript(true)}
+              onRate={handleRate}
             />
             
             {showScript && currentTask.script && (
