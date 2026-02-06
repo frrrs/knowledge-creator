@@ -5,6 +5,13 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "env": {
-    "KIMI_CODE_BASE_URL": "https://api.kimi.com/coding/v1"
-  }
+    "KIMI_CODE_BASE_URL": "https://api.kimi.com/coding/v1",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ]
 }
