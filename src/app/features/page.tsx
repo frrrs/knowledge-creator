@@ -76,6 +76,14 @@ const FEATURES = [
     badge: 'NEW'
   },
   {
+    id: 'predict',
+    name: '效果预测',
+    description: 'AI预测内容表现，提供优化建议',
+    icon: BarChart3,
+    color: 'bg-violet-600',
+    badge: 'NEW'
+  },
+  {
     id: 'scripts',
     name: '脚本助手',
     description: '生成和编辑内容脚本',
@@ -150,6 +158,9 @@ export default function FeaturesPage() {
         break
       case 'tags':
         router.push('/tags')
+        break
+      case 'predict':
+        router.push('/predict')
         break
       case 'scripts':
         router.push('/scripts')
