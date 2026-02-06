@@ -9,9 +9,6 @@ on:
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
-    env:
-      VERCEL_ORG_ID: team_mqTjX9Ni0MqzgQbt9Jsx0PeJ
-      VERCEL_PROJECT_ID: prj_vNt4TG4iDpUR81mrl0Kvqjb3peQZ
     steps:
       - uses: actions/checkout@v4
       
@@ -23,14 +20,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+      - name: Generate Prisma Client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: postgres://placeholder:placeholder@localhost:5432/db
       
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Next.js
+        run: npm run build
+        env:
+          KIMI_CODE_API_KEY: ${{ secrets.KIMI_CODE_API_KEY }}
+          KIMI_CODE_BASE_URL: https://api.kimi.com/coding/v1
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
       
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
