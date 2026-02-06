@@ -1,0 +1,25 @@
+name: Daily Task Generation
+
+on:
+  schedule:
+    # 每小时的第 0 分钟运行（根据用户设置的推送时间）
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-tasks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Daily Task Generation
+        run: |
+          curl -X POST "https://knowledge-creator-prod.vercel.app/api/cron/daily-tasks" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            || echo "Production URL failed, trying development"
+          
+          # 备用：尝试开发环境
+          curl -X POST "${{ secrets.DEV_API_URL }}/api/cron/daily-tasks" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            || echo "Both URLs failed"
+        continue-on-error: true
