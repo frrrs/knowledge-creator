@@ -10,6 +10,17 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "知识创作者",
   },
+  openGraph: {
+    title: "知识创作者工作台",
+    description: "AI驱动的知识博主任务推送与脚本生成系统",
+    type: "website",
+    locale: "zh_CN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "知识创作者工作台",
+    description: "AI驱动的知识博主任务推送与脚本生成系统",
+  },
 };
 
 export const viewport: Viewport = {
@@ -28,6 +39,11 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className="antialiased">
+        <noscript>
+          <div style={{padding: '20px', textAlign: 'center', background: '#fef3c7'}}>
+            ⚠️ 请启用 JavaScript 以使用本应用
+          </div>
+        </noscript>
         {children}
       </body>
     </html>
