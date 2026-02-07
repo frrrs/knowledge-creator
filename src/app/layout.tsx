@@ -38,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className="antialiased">
+      <body className="antialiased dark:bg-gray-900">
         <noscript>
           <div style={{padding: '20px', textAlign: 'center', background: '#fef3c7'}}>
             ⚠️ 请启用 JavaScript 以使用本应用
