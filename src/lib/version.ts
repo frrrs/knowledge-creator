@@ -2,7 +2,7 @@
 
 // v0.1.5 - 新增版本信息显示
 
-export const VERSION = '0.2.4'
+export const VERSION = '0.2.9'
 export const BUILD_DATE = '2026-02-07'
 export const ITERATION_COUNT = 9
 
