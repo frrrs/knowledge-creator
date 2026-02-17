@@ -1,0 +1,32 @@
+# 忽略开发文件
+.git
+.github
+.vscode
+.idea
+
+# 忽略文档
+*.md
+docs
+
+# 忽略测试文件
+*.test.ts
+*.test.tsx
+__tests__
+
+# 忽略本地环境
+.env.local
+.env.development
+
+# 忽略日志
+*.log
+logs
+
+# 忽略缓存
+.cache
+.next/cache
+node_modules/.cache
+
+# 忽略大文件
+*.mp4
+*.mov
+*.zip
