@@ -127,7 +127,32 @@ export async function skipTask(taskId: string, reason?: string) {
 }
 
 // Script operations
-export async function createScript(taskId: string, content: string, hooks?: any, keywords?: any) {
+
+/** 脚本钩子结构 - 用于吸引观众的开场 */
+interface ScriptHook {
+  text: string
+  type: 'question' | 'fact' | 'story' | 'challenge'
+}
+
+/** 关键词结构 - 用于SEO和标签 */
+interface ScriptKeyword {
+  word: string
+  relevance: number // 0-1
+}
+
+/**
+ * 创建脚本记录
+ * @param taskId - 关联的任务ID
+ * @param content - 脚本内容
+ * @param hooks - 可选的钩子数组，用于吸引观众
+ * @param keywords - 可选的关键词数组，用于SEO
+ */
+export async function createScript(
+  taskId: string,
+  content: string,
+  hooks?: ScriptHook[],
+  keywords?: ScriptKeyword[]
+) {
   return prisma.script.create({
     data: {
       taskId,
