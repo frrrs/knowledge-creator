@@ -1,5 +1,46 @@
 // PRD-compliant script generation prompts
 
+/** 脚本生成参数 */
+interface ScriptParams {
+  topic: string
+  domain: string
+  duration: number
+}
+
+/** 脚本分节结构 */
+interface ScriptSections {
+  hook: string
+  pain: string
+  knowledge: string
+  interaction: string
+  ending: string
+  fullContent: string
+}
+
+/** 互动点（钩子）结构 */
+interface ScriptHook {
+  position: string
+  text: string
+  type: string
+}
+
+/** 脚本验证结果 */
+interface ValidationResult {
+  isValid: boolean
+  issues: string[]
+}
+
+/** 解析后的脚本结果 */
+interface ParsedScript {
+  content: string
+  sections: ScriptSections
+  hooks: ScriptHook[]
+  keywords: string[]
+  wordCount: number
+  validation: ValidationResult
+  needsOptimization: boolean
+}
+
 export const SYSTEM_PROMPT = `你是一位资深知识博主内容策划专家，专门帮助专业人士将复杂知识转化为通俗易懂的口播内容。
 
 【核心要求】
@@ -36,11 +77,11 @@ export const SYSTEM_PROMPT = `你是一位资深知识博主内容策划专家�
    - 有节奏感，长短句结合
    - 适当使用emoji增加趣味性`;
 
-export function buildPrompt(params: {
-  topic: string;
-  domain: string;
-  duration: number;
-}) {
+/**
+ * 构建脚本生成提示词
+ * @param params - 脚本参数
+ */
+export function buildPrompt(params: ScriptParams): string {
   return `请为以下选题生成符合知识博主风格的口播稿：
 
 【选题信息】
@@ -87,7 +128,12 @@ export function buildPrompt(params: {
 请直接输出完整的口播稿，严格按照上述结构标记【钩子】【痛点】等标签。`;
 }
 
-export function parseScript(content: string) {
+/**
+ * 解析AI生成的脚本内容
+ * @param content - AI返回的原始脚本
+ * @returns 结构化解析结果
+ */
+export function parseScript(content: string): ParsedScript {
   // 提取各个部分
   const sections = {
     hook: extractSection(content, '钩子'),
@@ -185,7 +231,16 @@ function countWords(content: string): number {
   return chineseChars + englishWords;
 }
 
-function validateScript(sections: any, hooks: any): {isValid: boolean; issues: string[]} {
+/**
+ * 验证脚本结构完整性
+ * @param sections - 脚本各部分内容
+ * @param hooks - 互动点列表
+ * @returns 验证结果
+ */
+function validateScript(
+  sections: ScriptSections,
+  hooks: ScriptHook[]
+): ValidationResult {
   const issues: string[] = [];
   
   // 检查结构完整性
