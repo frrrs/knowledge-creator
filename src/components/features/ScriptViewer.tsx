@@ -1,22 +1,47 @@
 'use client'
 
 import { useState } from 'react'
+import type { LucideIcon } from 'lucide-react'
 import { ChevronDown, ChevronUp, Target, Clock, MessageSquare, Sparkles, CheckCircle } from 'lucide-react'
+
+/** 脚本分段结构 */
+interface ScriptSections {
+  hook: string
+  pain: string
+  knowledge: string
+  interaction: string
+  ending: string
+  fullContent: string
+}
+
+/** 互动点（钩子）结构 */
+interface ScriptHook {
+  position: string
+  text: string
+  type: string
+}
+
+/** 验证结果结构 */
+interface ValidationResult {
+  isValid: boolean
+  issues: string[]
+}
+
+/** 分段配置项 */
+interface SectionConfig {
+  title: string
+  icon: LucideIcon
+  color: string
+  time: string
+}
 
 interface ScriptViewerProps {
   content: string
-  sections?: {
-    hook: string
-    pain: string
-    knowledge: string
-    interaction: string
-    ending: string
-    fullContent: string
-  }
-  hooks?: Array<{ position: string; text: string; type: string }>
+  sections?: ScriptSections
+  hooks?: ScriptHook[]
   keywords?: string[]
   wordCount?: number
-  validation?: { isValid: boolean; issues: string[] }
+  validation?: ValidationResult
 }
 
 export function ScriptViewer({ 
@@ -41,7 +66,7 @@ export function ScriptViewer({
     )
   }
   
-  const sectionConfig: Record<string, { title: string; icon: any; color: string; time: string }> = {
+  const sectionConfig: Record<string, SectionConfig> = {
     hook: { 
       title: '开场钩子', 
       icon: Sparkles, 
@@ -199,8 +224,13 @@ export function ScriptViewer({
   )
 }
 
-function parseSections(content: string) {
-  const sections = {
+/**
+ * 从脚本内容解析分段
+ * @param content - 原始脚本内容
+ * @returns 解析后的分段结构
+ */
+function parseSections(content: string): ScriptSections {
+  const sections: ScriptSections = {
     hook: '',
     pain: '',
     knowledge: '',
@@ -239,11 +269,18 @@ function parseSections(content: string) {
   return sections
 }
 
+/**
+ * 高亮脚本内容中的特殊标记
+ * @param text - 段落文本
+ * @param hooks - 互动点列表
+ * @param keywords - 关键词列表
+ * @returns React 元素数组
+ */
 function highlightContent(
-  text: string, 
-  hooks: Array<{ position: string; text: string; type: string }>,
+  text: string,
+  hooks: ScriptHook[],
   keywords: string[]
-) {
+): JSX.Element[] {
   // 简单渲染，实际可用更复杂的富文本
   return text.split('\n').map((line, i) => {
     // 高亮🎯标记
@@ -262,8 +299,13 @@ function highlightContent(
   })
 }
 
+/**
+ * 估算口播时长
+ * @param wordCount - 字数
+ * @returns 估算的分钟数（至少1分钟）
+ * @remarks 按中文每分钟160-180字的语速计算
+ */
 function estimateDuration(wordCount: number): number {
-  // 中文大约每分钟160-180字
   const minutes = wordCount / 170
   return Math.max(1, Math.round(minutes))
 }
