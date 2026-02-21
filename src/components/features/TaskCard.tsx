@@ -3,13 +3,42 @@
 import { useState } from 'react'
 import { Check, SkipForward, Star, X } from 'lucide-react'
 
+/** 任务难度等级 */
+type Difficulty = 'EASY' | 'MEDIUM' | 'HARD'
+
+/** 任务状态 */
+type TaskStatus = 'PENDING' | 'COMPLETED' | 'SKIPPED'
+
+/** 难度样式映射 */
+const DIFFICULTY_STYLES: Record<Difficulty, string> = {
+  EASY: 'bg-green-100 text-green-800',
+  MEDIUM: 'bg-yellow-100 text-yellow-800',
+  HARD: 'bg-red-100 text-red-800'
+}
+
+/** 难度文本映射 */
+const DIFFICULTY_LABELS: Record<Difficulty, string> = {
+  EASY: '简单',
+  MEDIUM: '中等',
+  HARD: '困难'
+}
+
+/** 评分标签映射 */
+const RATING_LABELS: Record<number, string> = {
+  1: '⭐ 有待改进',
+  2: '⭐⭐ 一般般',
+  3: '⭐⭐⭐ 还不错',
+  4: '⭐⭐⭐⭐ 很好',
+  5: '⭐⭐⭐⭐⭐ 非常棒!'
+}
+
 interface TaskCardProps {
   id: string
   title: string
   domain: string
   duration: number
-  difficulty: 'EASY' | 'MEDIUM' | 'HARD'
-  status: 'PENDING' | 'COMPLETED' | 'SKIPPED'
+  difficulty: Difficulty
+  status: TaskStatus
   userRating?: number
   onComplete?: () => void
   onSkip?: () => void
@@ -34,18 +63,6 @@ export function TaskCard({
   const [rating, setRating] = useState(userRating || 0)
   const [comment, setComment] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  
-  const difficultyColor = {
-    EASY: 'bg-green-100 text-green-800',
-    MEDIUM: 'bg-yellow-100 text-yellow-800',
-    HARD: 'bg-red-100 text-red-800'
-  }
-  
-  const difficultyText = {
-    EASY: '简单',
-    MEDIUM: '中等',
-    HARD: '困难'
-  }
   
   const handleRateSubmit = async () => {
     if (!onRate || rating === 0) return
@@ -125,13 +142,11 @@ export function TaskCard({
             </div>
             
             {/* Rating Label */}
-            <p className="text-center text-sm text-gray-600 mb-3">
-              {rating === 1 && '⭐ 有待改进'}
-              {rating === 2 && '⭐⭐ 一般般'}
-              {rating === 3 && '⭐⭐⭐ 还不错'}
-              {rating === 4 && '⭐⭐⭐⭐ 很好'}
-              {rating === 5 && '⭐⭐⭐⭐⭐ 非常棒!'}
-            </p>
+            {rating > 0 && (
+              <p className="text-center text-sm text-gray-600 mb-3">
+                {RATING_LABELS[rating]}
+              </p>
+            )}
             
             {/* Comment Input */}
             {rating > 0 && (
@@ -162,8 +177,8 @@ export function TaskCard({
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm text-gray-500">今日任务</span>
-        <span className={`text-xs px-2 py-1 rounded-full ${difficultyColor[difficulty]}`}>
-          {difficultyText[difficulty]}
+        <span className={`text-xs px-2 py-1 rounded-full ${DIFFICULTY_STYLES[difficulty]}`}>
+          {DIFFICULTY_LABELS[difficulty]}
         </span>
       </div>
       
