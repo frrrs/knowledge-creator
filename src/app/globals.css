@@ -1,14 +1,26 @@
+/* ============================================
+ * 全局样式定义
+ * ============================================ */
+
+/* Tailwind 基础导入 */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* 自定义动画 */
 @import '../styles/animations.css';
 
+/* --------------------------------------------
+ * CSS 变量定义
+ * -------------------------------------------- */
+
 :root {
+  /* 浅色主题 */
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/* 深色主题（系统偏好） */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -16,26 +28,45 @@
   }
 }
 
+/* --------------------------------------------
+ * 基础样式重置
+ * -------------------------------------------- */
+
 body {
   color: var(--foreground);
   background: var(--background);
+  /* 系统字体栈，确保在各平台显示一致 */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* 字体抗锯齿优化 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* --------------------------------------------
+ * Tailwind 工具类扩展
+ * -------------------------------------------- */
+
 @layer utilities {
+  /* 文本平衡 - 优化排版 */
   .text-balance {
     text-wrap: balance;
   }
 }
 
-/* 移动端优化 */
+/* --------------------------------------------
+ * 移动端优化
+ * -------------------------------------------- */
+
+/* 禁用双击缩放，提升触摸响应 */
 html {
   touch-action: manipulation;
 }
 
-/* 禁止选中（可选） */
+/* --------------------------------------------
+ * 工具类
+ * -------------------------------------------- */
+
+/* 禁止文本选择 */
 .no-select {
   user-select: none;
   -webkit-user-select: none;
