@@ -2,11 +2,20 @@
 
 import { useState, useEffect } from 'react'
 
+/** Loading 组件属性 */
 interface LoadingProps {
+  /** 加载提示文字 */
   text?: string
+  /** 是否全屏显示 */
   fullscreen?: boolean
 }
 
+/**
+ * 加载中组件
+ * 显示旋转动画和加载文字，支持全屏和行内两种模式
+ * @param text - 加载提示文字，默认"加载中..."
+ * @param fullscreen - 是否全屏显示，默认 false
+ */
 export function Loading({ text = '加载中...', fullscreen = false }: LoadingProps) {
   if (fullscreen) {
     return (
@@ -31,7 +40,11 @@ export function Loading({ text = '加载中...', fullscreen = false }: LoadingPr
   )
 }
 
-// 页面加载状态管理
+/**
+ * 页面加载状态管理 Hook
+ * @returns 加载状态和设置函数
+ * @remarks 默认 500ms 后自动完成加载，用于模拟页面初始化
+ */
 export function usePageLoading() {
   const [isLoading, setIsLoading] = useState(true)
 
