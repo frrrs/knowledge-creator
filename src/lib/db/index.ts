@@ -58,7 +58,20 @@ export async function updateUserDomains(userId: string, domains: string[]) {
   })
 }
 
-// Task operations
+// ============================================
+// 任务相关操作
+// ============================================
+
+/**
+ * 创建新任务
+ * @param data - 任务数据
+ * @param data.userId - 用户ID
+ * @param data.title - 任务标题
+ * @param data.domain - 任务所属领域
+ * @param data.duration - 预计完成时长（分钟）
+ * @param data.difficulty - 任务难度等级（默认 MEDIUM）
+ * @returns 创建的任务记录
+ */
 export async function createTask(data: {
   userId: string
   title: string
@@ -74,6 +87,12 @@ export async function createTask(data: {
   })
 }
 
+/**
+ * 获取用户今天的任务
+ * @param userId - 用户ID
+ * @returns 今天创建的最新任务（包含脚本和反馈信息），如果没有则返回 null
+ * @remarks 查询范围从今天 00:00:00 开始，按创建时间倒序排列取第一条
+ */
 export async function getTodayTask(userId: string) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
