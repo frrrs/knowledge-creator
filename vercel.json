@@ -1,4 +1,15 @@
 {
   "version": 2,
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "regions": ["hkg1"],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "buildCommand": "prisma generate && next build",
+  "crons": [
+    {
+      "path": "/api/cron/daily-tasks",
+      "schedule": "0 8 * * *"
+    }
+  ]
 }
