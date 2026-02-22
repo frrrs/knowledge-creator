@@ -4,6 +4,10 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { MessageCircle, Phone, ArrowRight, Loader2 } from 'lucide-react'
 
+/**
+ * 登录页面
+ * 支持手机号验证码登录和微信登录（模拟）
+ */
 export default function LoginPage() {
   const router = useRouter()
   const [loginType, setLoginType] = useState<'wechat' | 'phone'>('phone')
