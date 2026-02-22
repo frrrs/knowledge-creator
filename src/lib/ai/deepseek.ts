@@ -1,16 +1,34 @@
 import OpenAI from 'openai'
-import { SYSTEM_PROMPT, buildPrompt, parseScript } from './prompts'
+import { SYSTEM_PROMPT, buildPrompt, parseScript, type ScriptParams, type ParsedScript } from './prompts'
 
+/** DeepSeek AI 客户端 */
 const deepseek = new OpenAI({
   baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com/v1',
   apiKey: process.env.DEEPSEEK_API_KEY || '',
 })
 
-export async function generateScript(params: {
-  topic: string
+/** 选题生成参数 */
+interface TopicParams {
+  domains: string[]
+  userHistory?: string[]
+}
+
+/** 选题生成结果 */
+interface GeneratedTopic {
+  title: string
   domain: string
   duration: number
-}) {
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD'
+  tags: string[]
+  outline: string
+}
+
+/**
+ * 使用 DeepSeek 生成脚本
+ * @param params - 脚本生成参数
+ * @returns 解析后的脚本数据
+ */
+export async function generateScript(params: ScriptParams): Promise<ParsedScript> {
   try {
     const response = await deepseek.chat.completions.create({
       model: 'deepseek-chat',
@@ -30,10 +48,12 @@ export async function generateScript(params: {
   }
 }
 
-export async function generateTopic(params: {
-  domains: string[]
-  userHistory?: string[]
-}) {
+/**
+ * 使用 DeepSeek 生成选题
+ * @param params - 选题生成参数
+ * @returns 生成的选题信息
+ */
+export async function generateTopic(params: TopicParams): Promise<GeneratedTopic> {
   const prompt = `请为知识博主生成一个选题。
 
 用户领域：${params.domains.join(', ')}

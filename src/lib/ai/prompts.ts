@@ -1,14 +1,14 @@
 // PRD-compliant script generation prompts
 
 /** 脚本生成参数 */
-interface ScriptParams {
+export interface ScriptParams {
   topic: string
   domain: string
   duration: number
 }
 
 /** 脚本分节结构 */
-interface ScriptSections {
+export interface ScriptSections {
   hook: string
   pain: string
   knowledge: string
@@ -18,20 +18,20 @@ interface ScriptSections {
 }
 
 /** 互动点（钩子）结构 */
-interface ScriptHook {
+export interface ScriptHook {
   position: string
   text: string
   type: string
 }
 
 /** 脚本验证结果 */
-interface ValidationResult {
+export interface ValidationResult {
   isValid: boolean
   issues: string[]
 }
 
 /** 解析后的脚本结果 */
-interface ParsedScript {
+export interface ParsedScript {
   content: string
   sections: ScriptSections
   hooks: ScriptHook[]
