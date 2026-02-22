@@ -1,16 +1,26 @@
+/**
+ * 数据库操作模块
+ * 封装 Prisma Client 的数据库操作，提供类型安全的数据访问层
+ */
+
 import { PrismaClient } from '@prisma/client'
 
+/** Prisma 客户端单例（开发环境使用全局变量防止热重载时重复实例化） */
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
+/** 导出的 Prisma 客户端实例 */
 export const prisma = globalForPrisma.prisma ?? new PrismaClient()
 
+// 开发环境：将实例保存到全局变量，避免热重载时重复创建
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma
 }
 
-// User operations
+// ============================================
+// 用户相关操作
+// ============================================
 export async function createUser(data: {
   phone?: string
   wechatId?: string
@@ -126,7 +136,9 @@ export async function skipTask(taskId: string, reason?: string) {
   }
 }
 
-// Script operations
+// ============================================
+// 脚本相关操作
+// ============================================
 
 /** 脚本钩子结构 - 用于吸引观众的开场 */
 interface ScriptHook {
@@ -163,7 +175,9 @@ export async function createScript(
   })
 }
 
-// Feedback operations
+// ============================================
+// 反馈相关操作
+// ============================================
 export async function rateScript(taskId: string, rating: number, comment?: string) {
   return prisma.taskFeedback.upsert({
     where: { taskId },
@@ -179,7 +193,15 @@ export async function rateScript(taskId: string, rating: number, comment?: strin
   })
 }
 
-// Stats
+// ============================================
+// 统计相关操作
+// ============================================
+
+/**
+ * 获取用户统计数据
+ * @param userId - 用户ID
+ * @returns 用户任务统计数据（总数、完成数、连续天数、完成率）
+ */
 export async function getUserStats(userId: string) {
   const total = await prisma.task.count({ where: { userId } })
   const completed = await prisma.task.count({ 
@@ -195,6 +217,12 @@ export async function getUserStats(userId: string) {
   }
 }
 
+/**
+ * 计算用户连续打卡天数
+ * @param userId - 用户ID
+ * @returns 连续完成任务的次数
+ * @remarks 从最近完成的任务开始计算，直到出现空缺
+ */
 async function calculateStreak(userId: string): Promise<number> {
   const tasks = await prisma.task.findMany({
     where: { 
