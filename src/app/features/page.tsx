@@ -13,6 +13,11 @@ import {
   Sparkles
 } from 'lucide-react'
 
+/**
+ * 功能中心页面
+ * 展示应用核心功能入口，引导用户选择功能模块
+ */
+
 const FEATURES = [
   {
     id: 'today',
@@ -64,6 +69,10 @@ const FEATURES = [
   },
 ]
 
+/**
+ * 功能中心页面组件
+ * 展示应用核心功能入口，引导用户选择功能模块
+ */
 export default function FeaturesPage() {
   const router = useRouter()
   const [domains, setDomains] = useState<string[]>([])
