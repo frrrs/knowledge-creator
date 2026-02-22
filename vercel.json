@@ -1,21 +1,13 @@
 {
-  // Vercel 部署配置
-  // version: 配置格式版本
   "version": 2,
-  // framework: 使用的框架类型
   "framework": "nextjs",
-  // regions: 部署区域（hkg1 = 香港）
   "regions": ["hkg1"],
-  // env: 环境变量
   "env": {
     "NODE_ENV": "production"
   },
-  // buildCommand: 自定义构建命令（先生成 Prisma 客户端）
   "buildCommand": "prisma generate && next build",
-  // crons: 定时任务配置
   "crons": [
     {
-      // 每日任务生成接口（每天早上8点执行）
       "path": "/api/cron/daily-tasks",
       "schedule": "0 8 * * *"
     }
