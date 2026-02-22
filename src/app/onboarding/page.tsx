@@ -13,6 +13,10 @@ const DOMAINS = [
   { id: 'education', name: '教育', icon: '🎓', subdomains: ['学习方法', '亲子教育', '职业发展'] },
 ]
 
+/**
+ * 新用户引导页面
+ * 让用户选择感兴趣的领域，用于个性化推荐选题
+ */
 export default function OnboardingPage() {
   const router = useRouter()
   const [selected, setSelected] = useState<string[]>([])
