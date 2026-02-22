@@ -46,6 +46,10 @@ const TOPIC_SUGGESTIONS = [
   }
 ]
 
+/**
+ * 话题列表页面
+ * 展示推荐选题列表，包含趋势、难度、预估播放量等信息
+ */
 export default function TopicsPage() {
   const router = useRouter()
   
