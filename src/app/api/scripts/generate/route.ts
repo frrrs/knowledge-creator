@@ -1,19 +1,33 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { generateScript } from '@/lib/ai/kimi-code'
 import { successResponse, errorResponse, validateRequired } from '@/lib/utils/api'
 
-// POST /api/scripts/generate - AI生成脚本
+/** 脚本模板类型 */
+type TemplateType = 'tutorial' | 'story' | 'review' | 'opinion' | 'custom'
+
+/** 生成脚本请求体 */
+interface GenerateScriptRequest {
+  topic: string
+  templateType: TemplateType
+  templateName?: string
+  structure?: string[]
+}
+
+/**
+ * POST /api/scripts/generate - AI生成脚本
+ * 根据选题和模板类型生成口播脚本
+ */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    
+    const body: GenerateScriptRequest = await request.json()
+
     // 验证必要参数
     const validationError = validateRequired(body, ['topic', 'templateType'])
     if (validationError) {
       return errorResponse(validationError, 400)
     }
-    
-    const { topic, templateType, templateName, structure } = body
+
+    const { topic, templateType, templateName } = body
     
     console.log('[API] Generating script for:', topic, 'type:', templateType)
     
