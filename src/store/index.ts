@@ -1,7 +1,13 @@
+/**
+ * 全局状态管理 Store
+ * 使用 Zustand 管理应用状态，支持持久化存储
+ */
+
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { Task, User } from '@/types'
 
+/** 应用全局状态接口 */
 interface AppState {
   // 用户信息
   user: User | null
