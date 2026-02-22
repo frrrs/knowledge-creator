@@ -22,6 +22,10 @@ const SETTINGS_GROUPS = [
   }
 ]
 
+/**
+ * 设置页面
+ * 用户个人设置管理中心，包括账户信息、推送时间、通知偏好等
+ */
 export default function SettingsPage() {
   const router = useRouter()
   const [userName, setUserName] = useState('微信用户')
