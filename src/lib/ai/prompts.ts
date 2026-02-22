@@ -223,6 +223,12 @@ function classifyHookType(text: string): string {
   return '互动';
 }
 
+/**
+ * 统计内容字数
+ * @param content - 要统计的文本内容
+ * @returns 总字数（中文字符 + 英文单词）
+ * @remarks 中文字符按字计数，英文按单词计数
+ */
 function countWords(content: string): number {
   // 中文字符计数
   const chineseChars = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
@@ -271,8 +277,14 @@ function validateScript(
   };
 }
 
+/**
+ * 从内容中提取关键词
+ * @param content - 脚本内容文本
+ * @returns 按频率排序的前8个关键词
+ * @remarks 使用词频统计，过滤常见停用词，提取2-4字中文词组
+ */
 function extractKeywords(content: string): string[] {
-  // 更智能的关键词提取
+  // 常见停用词表（不参与关键词统计）
   const commonWords = new Set([
     '的', '了', '是', '在', '我', '有', '和', '就', '不', '人', '都', '一', '一个', '上', '也',
     '很', '到', '说', '要', '去', '你', '会', '着', '没有', '看', '好', '自己', '这', '那',
