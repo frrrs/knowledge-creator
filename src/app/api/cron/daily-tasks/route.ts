@@ -120,7 +120,12 @@ interface UserWithSettings {
   domains: string[]
 }
 
-// 生成每日任务
+/**
+ * 为用户生成每日任务
+ * @param user - 用户信息（包含ID和领域偏好）
+ * @returns 创建的任务记录
+ * @remarks 从选题库中随机选择标题，创建任务和关联脚本
+ */
 async function generateDailyTask(user: UserWithSettings) {
   const domains = user.domains || ['科技']
   const domain = domains[Math.floor(Math.random() * domains.length)]
@@ -193,7 +198,13 @@ async function generateDailyTask(user: UserWithSettings) {
   return task
 }
 
-// 生成脚本内容
+/**
+ * 生成脚本内容模板
+ * @param title - 任务标题/选题
+ * @param domain - 内容领域
+ * @returns 格式化的脚本内容（包含标准结构标记）
+ * @remarks 使用模板字符串生成基础脚本框架，实际生产应调用 AI 服务
+ */
 function generateScriptContent(title: string, domain: string): string {
   return `【开场钩子】
 你是不是也对${title}感到好奇？今天我就来为你揭秘！
