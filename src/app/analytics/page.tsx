@@ -25,6 +25,10 @@ interface AnalyticsData {
   }
 }
 
+/**
+ * 数据分析页面
+ * 展示用户的创作数据统计、完成率、连续打卡天数等
+ */
 export default function AnalyticsPage() {
   const router = useRouter()
   const [data, setData] = useState<AnalyticsData | null>(null)
