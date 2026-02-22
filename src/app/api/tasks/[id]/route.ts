@@ -2,14 +2,32 @@ import { NextRequest } from 'next/server'
 import { completeTask, skipTask, rateScript } from '@/lib/db'
 import { successResponse, errorResponse } from '@/lib/utils/api'
 
-// POST /api/tasks/[id]/complete - 完成任务
+/** 路由参数 */
+interface RouteParams {
+  params: {
+    id: string
+  }
+}
+
+/** 任务操作请求体 */
+interface TaskActionRequest {
+  action: 'complete' | 'skip' | 'rate'
+  reason?: string
+  rating?: number
+  comment?: string
+}
+
+/**
+ * POST /api/tasks/[id] - 执行任务操作
+ * 支持完成、跳过、评分三种操作
+ */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: RouteParams
 ) {
   try {
     const taskId = params.id
-    const body = await request.json().catch(() => ({}))
+    const body: TaskActionRequest = await request.json().catch(() => ({} as TaskActionRequest))
     const { action, reason, rating, comment } = body
     
     switch (action) {
