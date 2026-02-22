@@ -1,10 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { NextRequest } from 'next/server'
+import { PrismaClient, TaskDifficulty, TaskStatus } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-// POST /api/cron/daily-tasks
-// 定时任务：每日生成用户任务
+/** 任务生成结果 */
+interface TaskResult {
+  userId: string
+  status: 'created' | 'skipped' | 'error'
+  taskId?: string
+  reason?: string
+  error?: string
+}
+
+/**
+ * POST /api/cron/daily-tasks
+ * 定时任务：每日为用户生成创作任务
+ * 需要 CRON_SECRET 验证
+ */
 export async function POST(req: NextRequest) {
   try {
     // 验证 cron secret（防止未授权访问）
@@ -35,7 +47,7 @@ export async function POST(req: NextRequest) {
 
     console.log(`[Cron] Found ${users.length} users to generate tasks for`)
 
-    const results = []
+    const results: TaskResult[] = []
 
     // 为每个用户生成今日任务
     for (const user of users) {
@@ -102,8 +114,14 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/** 简化用户类型 */
+interface UserWithSettings {
+  id: string
+  domains: string[]
+}
+
 // 生成每日任务
-async function generateDailyTask(user: any) {
+async function generateDailyTask(user: UserWithSettings) {
   const domains = user.domains || ['科技']
   const domain = domains[Math.floor(Math.random() * domains.length)]
 
@@ -153,7 +171,7 @@ async function generateDailyTask(user: any) {
       title,
       domain,
       duration: [15, 20, 25][Math.floor(Math.random() * 3)],
-      difficulty: ['EASY', 'MEDIUM', 'HARD'][Math.floor(Math.random() * 3)] as any,
+      difficulty: ['EASY', 'MEDIUM', 'HARD'][Math.floor(Math.random() * 3)] as TaskDifficulty,
       status: 'PENDING'
     }
   })
