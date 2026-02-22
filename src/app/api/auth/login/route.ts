@@ -1,13 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/db'
 import { successResponse, errorResponse } from '@/lib/utils/api'
 import { verifyCode } from '@/lib/auth/verification'
 
-// POST /api/auth/login - 手机号验证码登录
+/** 登录请求体 */
+interface LoginRequest {
+  phone: string
+  code: string
+  type?: 'sms' | 'wechat'
+}
+
+/** 登录响应用户信息 */
+interface LoginUser {
+  id: string
+  phone: string | null
+  domains: string[]
+}
+
+/**
+ * POST /api/auth/login - 手机号验证码登录
+ * 验证手机号和验证码，查找或创建用户
+ */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { phone, code, type } = body
+    const body: LoginRequest = await request.json()
+    const { phone, code } = body
     
     if (!phone || !code) {
       return errorResponse('Phone and code are required', 400)
