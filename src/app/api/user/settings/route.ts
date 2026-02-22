@@ -1,8 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/db'
 import { successResponse, errorResponse } from '@/lib/utils/api'
 
-// GET /api/user/settings?userId=xxx - 获取用户设置
+/** 更新用户设置请求体 */
+interface UpdateSettingsRequest {
+  userId: string
+  pushTime?: string
+  timezone?: string
+}
+
+/**
+ * GET /api/user/settings?userId=xxx - 获取用户设置
+ * 如果用户没有设置，自动创建默认设置
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -35,10 +45,13 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// PUT /api/user/settings - 更新用户设置
+/**
+ * PUT /api/user/settings - 更新用户设置
+ * 支持创建新设置或更新现有设置
+ */
 export async function PUT(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body: UpdateSettingsRequest = await request.json()
     const { userId, pushTime, timezone } = body
     
     if (!userId) {
