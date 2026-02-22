@@ -1,83 +1,143 @@
+// ============================================
+// Prisma 数据库模型定义
+// 知识创作者工作台 - 数据库 Schema
+// ============================================
+
+// Prisma Client 生成器配置
 generator client {
   provider = "prisma-client-js"
 }
 
+// PostgreSQL 数据源配置
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+/// 用户模型 - 系统的核心用户实体
 model User {
+  /// 用户唯一标识 (CUID)
   id        String   @id @default(cuid())
+  /// 手机号（登录用，可选但唯一）
   phone     String?  @unique
+  /// 微信号（可选绑定）
   wechatId  String?  @unique
+  /// 感兴趣的领域列表（如：["科技", "历史"]）
   domains   String[]
+  /// 创建时间
   createdAt DateTime @default(now())
+  /// 更新时间
   updatedAt DateTime @updatedAt
-  
+
+  /// 用户的任务列表
   tasks     Task[]
+  /// 用户设置（一对一关系）
   settings  UserSettings?
 }
 
+/// 任务模型 - 每日创作任务
 model Task {
+  /// 任务唯一标识 (CUID)
   id          String     @id @default(cuid())
+  /// 关联的用户ID
   userId      String
+  /// 关联的用户
   user        User       @relation(fields: [userId], references: [id])
-  
+
+  /// 任务标题
   title       String
+  /// 所属领域
   domain      String
+  /// 预计时长（分钟）
   duration    Int
+  /// 难度等级
   difficulty  Difficulty @default(MEDIUM)
+  /// 当前状态
   status      TaskStatus @default(PENDING)
-  
+
+  /// 关联的脚本（可选）
   script      Script?
+  /// 用户反馈（可选）
   feedback    TaskFeedback?
-  
+
+  /// 创建时间
   createdAt   DateTime   @default(now())
+  /// 完成时间（未完成为 null）
   completedAt DateTime?
-  
+
+  // 复合索引：加速按用户和状态的查询
   @@index([userId, status])
+  // 复合索引：加速按用户和创建时间的查询
   @@index([userId, createdAt])
 }
 
+/// 脚本模型 - AI 生成的口播稿
 model Script {
+  /// 脚本唯一标识 (CUID)
   id       String @id @default(cuid())
+  /// 关联的任务ID（唯一，一对一关系）
   taskId   String @unique
+  /// 关联的任务
   task     Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  
+
+  /// 脚本正文内容
   content  String
+  /// 互动点/钩子列表（JSON 格式）
   hooks    Json?
+  /// 关键词标签（JSON 格式）
   keywords Json?
 }
 
+/// 任务反馈模型 - 用户对任务的评分和评论
 model TaskFeedback {
+  /// 反馈唯一标识 (CUID)
   id      String @id @default(cuid())
+  /// 关联的任务ID（唯一，一对一关系）
   taskId  String @unique
+  /// 关联的任务
   task    Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  
+
+  /// 评分（1-5，可选）
   rating  Int?
+  /// 文字评论（可选）
   comment String?
+  /// 是否跳过任务
   skipped Boolean @default(false)
+  /// 跳过原因（可选）
   reason  String?
 }
 
+/// 用户设置模型 - 个性化配置
 model UserSettings {
+  /// 设置唯一标识 (CUID)
   id        String   @id @default(cuid())
+  /// 关联的用户ID（唯一，一对一关系）
   userId    String   @unique
+  /// 关联的用户
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
+  /// 每日推送时间（24小时制，默认 08:00）
   pushTime  String   @default("08:00")
+  /// 时区（默认 Asia/Shanghai）
   timezone  String   @default("Asia/Shanghai")
 }
 
+/// 任务难度枚举
 enum Difficulty {
+  /// 简单
   EASY
+  /// 中等
   MEDIUM
+  /// 困难
   HARD
 }
 
+/// 任务状态枚举
 enum TaskStatus {
+  /// 待完成
   PENDING
+  /// 已完成
   COMPLETED
+  /// 已跳过
   SKIPPED
 }
