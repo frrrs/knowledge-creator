@@ -9,7 +9,11 @@ import { Loading } from '@/components/ui/Loading'
 import { Flame, Calendar, Settings, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 
-export default function Home() {
+/**
+ * 仪表板页面 - 用户主界面
+ * 显示今日任务、脚本查看、任务操作等功能
+ */
+export default function DashboardPage() {
   const router = useRouter()
   const [showScript, setShowScript] = useState(false)
   
