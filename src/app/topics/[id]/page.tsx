@@ -15,6 +15,12 @@ import {
   Loader2
 } from 'lucide-react'
 
+/**
+ * 话题详情页
+ * 展示选题详情、趋势分析、创作角度等信息
+ */
+
+/** 话题详情属性 */
 interface TopicDetailProps {
   id: string
   title: string
