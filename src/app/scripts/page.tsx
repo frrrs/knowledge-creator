@@ -31,6 +31,10 @@ const SCRIPT_TEMPLATES = [
   }
 ]
 
+/**
+ * 脚本生成页面
+ * 提供多种脚本模板，使用 AI 生成口播脚本内容
+ */
 export default function ScriptsPage() {
   const router = useRouter()
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null)
