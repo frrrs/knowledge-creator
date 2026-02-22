@@ -1,27 +1,33 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { generateTopic, generateScript } from '@/lib/ai/kimi-code'
 import { prisma } from '@/lib/db'
-import { 
-  createTask, 
-  getTodayTask, 
-  createScript,
-  completeTask,
-  skipTask,
-  rateScript
+import {
+  createTask,
+  getTodayTask,
+  createScript
 } from '@/lib/db'
 import { successResponse, errorResponse, validateRequired } from '@/lib/utils/api'
 
-// POST /api/tasks/generate - 生成今日任务
+/** 生成任务请求体 */
+interface GenerateTaskRequest {
+  userId: string
+  domains: string[]
+}
+
+/**
+ * POST /api/tasks - 生成今日任务
+ * 使用 AI 生成选题和脚本
+ */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    
+    const body: GenerateTaskRequest = await request.json()
+
     // 验证必要参数
     const validationError = validateRequired(body, ['userId', 'domains'])
     if (validationError) {
       return errorResponse(validationError, 400)
     }
-    
+
     const { userId, domains } = body
     
     // 检查今天是否已有任务
@@ -87,7 +93,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET /api/tasks/today?userId=xxx - 获取今日任务
+/**
+ * GET /api/tasks?userId=xxx - 获取今日任务
+ * 返回用户今天的创作任务
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
