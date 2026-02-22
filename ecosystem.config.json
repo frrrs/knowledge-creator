@@ -1,13 +1,25 @@
 {
+  /*
+   * PM2 生态系统配置文件
+   * 用于进程管理和部署
+   * 启动命令: pm2 start ecosystem.config.json
+   */
   "apps": [{
+    /* 应用名称 */
     "name": "knowledge-creator",
+    /* 启动脚本 */
     "script": "./node_modules/.bin/next",
+    /* 传递给脚本的参数 */
     "args": "dev -p 3000",
+    /* 工作目录 */
     "cwd": "/root/.openclaw/workspace/projects/knowledge-creator",
+    /* 环境变量 */
     "env": {
       "NODE_ENV": "development"
     },
+    /* 内存限制：超过 512MB 自动重启 */
     "max_memory_restart": "512M",
+    /* 重启延迟：3秒 */
     "restart_delay": 3000
   }]
 }
