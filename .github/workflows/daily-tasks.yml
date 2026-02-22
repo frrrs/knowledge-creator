@@ -1,25 +1,35 @@
+# ============================================
+# GitHub Actions 工作流：每日任务生成
+# ============================================
+# 定时触发任务生成 API，为用户创建每日创作任务
+
 name: Daily Task Generation
 
 on:
   schedule:
-    # 每小时的第 0 分钟运行（根据用户设置的推送时间）
+    # 每小时的第 0 分钟运行（根据用户设置的推送时间匹配）
+    # cron 格式：分 时 日 月 周
     - cron: '0 * * * *'
+  # 允许手动触发
   workflow_dispatch:
 
 jobs:
   generate-tasks:
     runs-on: ubuntu-latest
     steps:
+      # 步骤1：触发生产环境 API
       - name: Trigger Daily Task Generation
         run: |
+          # 首先尝试生产环境 URL
           curl -X POST "https://knowledge-creator-prod.vercel.app/api/cron/daily-tasks" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             -H "Content-Type: application/json" \
             || echo "Production URL failed, trying development"
           
-          # 备用：尝试开发环境
+          # 备用：尝试开发环境 URL
           curl -X POST "${{ secrets.DEV_API_URL }}/api/cron/daily-tasks" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             -H "Content-Type: application/json" \
             || echo "Both URLs failed"
+        # 允许失败，不阻塞工作流
         continue-on-error: true

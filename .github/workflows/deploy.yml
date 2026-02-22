@@ -1,39 +1,60 @@
+# ============================================
+# GitHub Actions 工作流：部署到 Vercel
+# ============================================
+# 在推送到 main 分支时自动构建并部署
+
 name: Deploy to Vercel
 
 on:
+  # 推送到 main 分支时触发
   push:
     branches: [main]
+  # 允许手动触发
   workflow_dispatch:
 
+# 环境变量
 env:
+  # Vercel 组织 ID
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  # Vercel 项目 ID
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  # 增加 Node.js 内存限制（避免构建时内存不足）
   NODE_OPTIONS: "--max-old-space-size=6144"
 
 jobs:
   deploy:
+    # 使用 Ubuntu 20.04 运行环境
     runs-on: ubuntu-20.04
     steps:
+      # 步骤1：检出代码
       - name: Checkout
         uses: actions/checkout@v4
       
+      # 步骤2：设置 Node.js 环境
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
       
+      # 步骤3：安装依赖
       - name: Install dependencies
         run: npm install
       
+      # 步骤4：生成 Prisma Client
+      # 必须在构建前执行，确保数据库客户端可用
       - name: Generate Prisma Client
         run: npx prisma generate
       
+      # 步骤5：安装 Vercel CLI
       - name: Install Vercel CLI
         run: npm install --global vercel@33.5.4
       
+      # 步骤6：拉取 Vercel 环境信息
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       
+      # 步骤7：构建项目
+      # 使用占位符数据库 URL（构建时不需要真实连接）
       - name: Build Project
         run: npm run build
         env:
@@ -43,5 +64,6 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_EXPIRES_IN: 7d
       
+      # 步骤8：部署到 Vercel 生产环境
       - name: Deploy to Vercel
         run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
