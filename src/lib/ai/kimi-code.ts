@@ -10,13 +10,25 @@ const kimiCode = new OpenAI({
   }
 })
 
-// 检查API配置
+/**
+ * 检查 AI API 配置
+ * @throws 当 KIMI_CODE_API_KEY 环境变量未配置时抛出错误
+ */
 function checkAIConfig() {
   if (!process.env.KIMI_CODE_API_KEY) {
     throw new Error('KIMI_CODE_API_KEY 未配置')
   }
 }
 
+/**
+ * 使用 Kimi Code 生成脚本
+ * @param params - 脚本生成参数
+ * @param params.topic - 脚本主题/选题
+ * @param params.domain - 内容领域
+ * @param params.duration - 脚本时长（分钟）
+ * @returns 解析后的脚本内容、钩子、关键词等
+ * @throws AI 调用失败时抛出错误
+ */
 export async function generateScript(params: {
   topic: string
   domain: string
@@ -63,6 +75,14 @@ export async function generateScript(params: {
   }
 }
 
+/**
+ * 使用 Kimi Code 生成选题
+ * @param params - 选题生成参数
+ * @param params.domains - 用户擅长的领域列表
+ * @param params.userHistory - 用户历史选题（可选，用于避免重复）
+ * @returns 生成的选题信息（标题、领域、时长、难度、标签、大纲）
+ * @remarks 失败时返回默认选题而不是抛出错误
+ */
 export async function generateTopic(params: {
   domains: string[]
   userHistory?: string[]
