@@ -1,8 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/db'
 import { successResponse, errorResponse } from '@/lib/utils/api'
 
-// GET /api/analytics?userId=xxx - 获取用户数据分析
+/** 每日统计数据 */
+interface DailyStat {
+  completed: number
+  total: number
+  dayName: string
+}
+
+/**
+ * GET /api/analytics?userId=xxx - 获取用户数据分析
+ * 返回用户的任务统计、完成率、连续打卡天数等
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -64,7 +74,7 @@ export async function GET(request: NextRequest) {
     })
     
     // 按日期分组统计
-    const dailyStats: Record<string, { completed: number; total: number }> = {}
+    const dailyStats: Record<string, DailyStat> = {}
     const weekDays = ['日', '一', '二', '三', '四', '五', '六']
     
     // 初始化最近7天
