@@ -33,6 +33,10 @@ const MOCK_HISTORY = [
   }
 ]
 
+/**
+ * 历史记录页面
+ * 展示用户已完成的创作任务历史
+ */
 export default function HistoryPage() {
   const router = useRouter()
   const [history, setHistory] = useState(MOCK_HISTORY)
