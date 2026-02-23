@@ -5,8 +5,21 @@ import { useRouter } from 'next/navigation'
 import { ArrowLeft, Clock, CheckCircle, XCircle } from 'lucide-react'
 import Link from 'next/link'
 
+/** 历史任务状态 */
+type HistoryStatus = 'completed' | 'skipped'
+
+/** 历史记录项 */
+interface HistoryItem {
+  id: string
+  title: string
+  domain: string
+  status: HistoryStatus
+  completedAt: string | null
+  duration: number
+}
+
 // 模拟历史数据
-const MOCK_HISTORY = [
+const MOCK_HISTORY: HistoryItem[] = [
   {
     id: '1',
     title: 'AI 在医疗领域的应用',
