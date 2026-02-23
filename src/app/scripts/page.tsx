@@ -1,3 +1,8 @@
+/**
+ * 脚本助手页面模块
+ * 提供脚本模板选择和AI脚本生成入口
+ */
+
 'use client'
 
 import { useState } from 'react'
