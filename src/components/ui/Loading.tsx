@@ -10,20 +10,26 @@ interface LoadingProps {
   fullscreen?: boolean
 }
 
+/** 旋转动画 Spinner 组件 */
+function Spinner({ size }: { size: 'sm' | 'lg' }) {
+  const dimensions = size === 'lg' ? 'w-16 h-16' : 'w-12 h-12'
+  return (
+    <div className={`relative ${dimensions}`}>
+      <div className="absolute inset-0 border-4 border-blue-100 rounded-full" />
+      <div className="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin" />
+    </div>
+  )
+}
+
 /**
  * 加载中组件
  * 显示旋转动画和加载文字，支持全屏和行内两种模式
- * @param text - 加载提示文字，默认"加载中..."
- * @param fullscreen - 是否全屏显示，默认 false
  */
 export function Loading({ text = '加载中...', fullscreen = false }: LoadingProps) {
   if (fullscreen) {
     return (
       <div className="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center">
-        <div className="relative w-16 h-16">
-          <div className="absolute inset-0 border-4 border-blue-100 rounded-full"></div>
-          <div className="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
-        </div>
+        <Spinner size="lg" />
         <p className="mt-4 text-gray-600 text-sm">{text}</p>
       </div>
     )
@@ -31,10 +37,7 @@ export function Loading({ text = '加载中...', fullscreen = false }: LoadingPr
 
   return (
     <div className="flex flex-col items-center justify-center py-12">
-      <div className="relative w-12 h-12">
-        <div className="absolute inset-0 border-4 border-blue-100 rounded-full"></div>
-        <div className="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
-      </div>
+      <Spinner size="sm" />
       <p className="mt-3 text-gray-600 text-sm">{text}</p>
     </div>
   )
