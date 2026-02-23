@@ -7,6 +7,13 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { Task, User } from '@/types'
 
+/** 统一处理 API 错误 */
+function handleApiError(action: string, error: unknown): never {
+  const message = error instanceof Error ? error.message : 'Unknown error'
+  console.error(`[Store] ${action} failed:`, message)
+  throw error
+}
+
 /** 应用全局状态接口 */
 interface AppState {
   // 用户信息
@@ -90,8 +97,7 @@ export const useAppStore = create<AppState>()(
           const data = await res.json()
           set({ currentTask: data.data })
         } catch (error) {
-          console.error('Generate task error:', error)
-          throw error
+          handleApiError('generateTask', error)
         } finally {
           set({ taskLoading: false })
         }
@@ -117,8 +123,7 @@ export const useAppStore = create<AppState>()(
             })
           }
         } catch (error) {
-          console.error('Complete task error:', error)
-          throw error
+          handleApiError('completeTask', error)
         }
       },
       
@@ -139,8 +144,7 @@ export const useAppStore = create<AppState>()(
             })
           }
         } catch (error) {
-          console.error('Skip task error:', error)
-          throw error
+          handleApiError('skipTask', error)
         }
       },
       
@@ -154,8 +158,7 @@ export const useAppStore = create<AppState>()(
           
           if (!res.ok) throw new Error('Failed to rate task')
         } catch (error) {
-          console.error('Rate task error:', error)
-          throw error
+          handleApiError('rateTask', error)
         }
       }
     }),
