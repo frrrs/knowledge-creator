@@ -1,3 +1,8 @@
+/**
+ * 全局类型定义模块
+ * 包含项目中使用的核心数据类型和接口
+ */
+
 /** 任务难度等级 */
 export type TaskDifficulty = 'EASY' | 'MEDIUM' | 'HARD'
 
