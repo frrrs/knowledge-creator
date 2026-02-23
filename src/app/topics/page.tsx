@@ -3,7 +3,24 @@
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Sparkles, TrendingUp, Clock } from 'lucide-react'
 
-const TOPIC_SUGGESTIONS = [
+/** 选题趋势类型 */
+type TopicTrend = 'hot' | 'rising' | 'stable'
+
+/** 选题难度类型 */
+type TopicDifficulty = 'easy' | 'medium' | 'hard'
+
+/** 选题建议项 */
+interface TopicSuggestion {
+  id: string
+  title: string
+  category: string
+  trend: TopicTrend
+  difficulty: TopicDifficulty
+  estimatedViews: string
+}
+
+/** 选题建议列表 */
+const TOPIC_SUGGESTIONS: TopicSuggestion[] = [
   {
     id: '1',
     title: 'AI 工具如何提升写作效率',
