@@ -1,3 +1,8 @@
+/**
+ * 用户设置 API 路由
+ * 提供用户设置的获取和更新接口
+ */
+
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/db'
 import { successResponse, errorResponse } from '@/lib/utils/api'
