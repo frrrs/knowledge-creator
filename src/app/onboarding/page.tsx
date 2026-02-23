@@ -4,7 +4,16 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Check } from 'lucide-react'
 
-const DOMAINS = [
+/** 领域项 */
+interface DomainItem {
+  id: string
+  name: string
+  icon: string
+  subdomains: string[]
+}
+
+/** 可选领域列表 */
+const DOMAINS: DomainItem[] = [
   { id: 'tech', name: '科技', icon: '💻', subdomains: ['AI', '互联网', '半导体', '新能源', '生物科技'] },
   { id: 'business', name: '商业', icon: '💼', subdomains: ['创业', '投资', '管理', '营销', '财经'] },
   { id: 'humanities', name: '人文', icon: '📚', subdomains: ['历史', '哲学', '文学', '艺术'] },
