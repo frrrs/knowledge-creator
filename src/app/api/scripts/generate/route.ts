@@ -1,3 +1,8 @@
+/**
+ * 脚本生成 API 路由
+ * 根据选题和模板类型生成 AI 口播脚本
+ */
+
 import { NextRequest } from 'next/server'
 import { generateScript } from '@/lib/ai/kimi-code'
 import { successResponse, errorResponse, validateRequired } from '@/lib/utils/api'
