@@ -1,3 +1,8 @@
+/**
+ * API 工具模块
+ * 提供统一的 API 响应格式和请求验证工具
+ */
+
 import { NextResponse } from 'next/server'
 
 /** API 成功响应结构 */
