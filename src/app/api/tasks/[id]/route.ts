@@ -1,3 +1,8 @@
+/**
+ * 任务操作 API 路由
+ * 提供任务完成、跳过、评分等操作接口
+ */
+
 import { NextRequest } from 'next/server'
 import { completeTask, skipTask, rateScript } from '@/lib/db'
 import { successResponse, errorResponse } from '@/lib/utils/api'
