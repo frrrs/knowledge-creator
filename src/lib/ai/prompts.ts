@@ -1,4 +1,7 @@
-// PRD-compliant script generation prompts
+/**
+ * AI 脚本生成提示词模块
+ * 包含系统提示词、提示词构建和脚本解析工具
+ */
 
 /** 脚本生成参数 */
 export interface ScriptParams {
