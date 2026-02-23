@@ -2,6 +2,11 @@
 
 AI 驱动的知识博主任务推送与脚本生成系统
 
+[![Version](https://img.shields.io/badge/version-v0.2.9-blue.svg)](./package.json)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+
 ## 项目简介
 
 知识创作者工作台是一款专为知识博主打造的内容创作辅助工具，帮助专业人士将复杂知识转化为通俗易懂的口播内容。
