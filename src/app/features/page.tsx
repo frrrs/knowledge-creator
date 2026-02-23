@@ -1,3 +1,8 @@
+/**
+ * 功能中心页面模块
+ * 展示应用核心功能入口，引导用户选择功能模块
+ */
+
 'use client'
 
 import { useEffect, useState } from 'react'
