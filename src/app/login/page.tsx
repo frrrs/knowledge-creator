@@ -1,3 +1,8 @@
+/**
+ * 登录页面模块
+ * 提供用户登录入口，支持手机号验证码登录
+ */
+
 'use client'
 
 import { useState } from 'react'
