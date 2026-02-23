@@ -1,3 +1,8 @@
+/**
+ * 登录 API 路由
+ * 验证手机号和验证码，查找或创建用户
+ */
+
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/db'
 import { successResponse, errorResponse } from '@/lib/utils/api'
