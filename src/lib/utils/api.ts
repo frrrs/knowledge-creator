@@ -59,11 +59,17 @@ type RequestBody = Record<string, unknown>
  * @param fields - 必需字段列表
  * @returns 错误信息或 null（验证通过）
  */
+/**
+ * 验证请求体中是否包含必需的字段
+ * @param body - 请求体对象
+ * @param fields - 必需字段列表
+ * @returns 错误信息或 null（验证通过）
+ */
 export function validateRequired(body: RequestBody, fields: string[]): string | null {
   for (const field of fields) {
     const value = body[field]
     if (!value || (Array.isArray(value) && value.length === 0)) {
-      return `Missing required field: ${field}`
+      return `缺少必需参数: ${field}`
     }
   }
   return null
