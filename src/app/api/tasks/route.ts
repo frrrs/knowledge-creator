@@ -1,3 +1,8 @@
+/**
+ * 任务 API 路由
+ * 提供任务生成、获取等接口
+ */
+
 import { NextRequest } from 'next/server'
 import { generateTopic, generateScript } from '@/lib/ai/kimi-code'
 import { prisma } from '@/lib/db'
