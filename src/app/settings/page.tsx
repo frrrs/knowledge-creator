@@ -1,3 +1,8 @@
+/**
+ * 设置页面模块
+ * 提供用户个性化设置、账户管理、通知配置等功能
+ */
+
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -202,7 +207,7 @@ export default function SettingsPage() {
         
         {/* Version - TODO: 从 package.json 动态读取版本号 */}
         <p className="text-center text-gray-400 text-sm mt-8">
-          Knowledge Creator v0.1.98
+          Knowledge Creator v0.1.99
         </p>
       </main>
       
