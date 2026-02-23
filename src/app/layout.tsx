@@ -1,3 +1,8 @@
+/**
+ * 根布局模块
+ * 定义应用的元数据、视口配置和全局布局结构
+ */
+
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
