@@ -1,3 +1,8 @@
+/**
+ * 数据分析 API 路由
+ * 提供用户任务统计、完成率、连续打卡天数等数据分析
+ */
+
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/db'
 import { successResponse, errorResponse } from '@/lib/utils/api'
