@@ -1,3 +1,8 @@
+/**
+ * 新用户引导页面模块
+ * 让用户选择感兴趣的领域，用于个性化推荐选题
+ */
+
 'use client'
 
 import { useState } from 'react'
