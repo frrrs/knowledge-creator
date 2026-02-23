@@ -1,3 +1,8 @@
+/**
+ * 健康检查 API 路由
+ * 提供系统和依赖服务的状态检查端点
+ */
+
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 
