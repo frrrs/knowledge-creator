@@ -112,13 +112,14 @@ export async function GET(request: NextRequest) {
       }
     }
     
-    // 获取评分统计
-    const ratings = await prisma.scriptRating.findMany({
+    // 获取评分统计（从 TaskFeedback 中统计）
+    const ratings = await prisma.taskFeedback.findMany({
       where: {
-        script: {
-          task: {
-            userId
-          }
+        task: {
+          userId
+        },
+        rating: {
+          not: null
         }
       },
       select: {
@@ -127,7 +128,7 @@ export async function GET(request: NextRequest) {
     })
     
     const averageRating = ratings.length > 0 
-      ? (ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length).toFixed(1)
+      ? (ratings.reduce((sum, r) => sum + (r.rating || 0), 0) / ratings.length).toFixed(1)
       : '0.0'
     
     return successResponse({
