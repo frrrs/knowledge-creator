@@ -1,5 +1,28 @@
 import OpenAI from 'openai'
-import { SYSTEM_PROMPT, buildPrompt, parseScript } from './prompts'
+import { SYSTEM_PROMPT, buildPrompt, parseScript, type ParsedScript } from './prompts'
+
+/** 脚本生成参数 */
+interface GenerateScriptParams {
+  topic: string
+  domain: string
+  duration: number
+}
+
+/** 选题生成参数 */
+interface GenerateTopicParams {
+  domains: string[]
+  userHistory?: string[]
+}
+
+/** 选题生成结果 */
+interface GeneratedTopic {
+  title: string
+  domain: string
+  duration: number
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD'
+  tags: string[]
+  outline: string
+}
 
 // Kimi Code API 配置
 const kimiCode = new OpenAI({
@@ -23,17 +46,10 @@ function checkAIConfig() {
 /**
  * 使用 Kimi Code 生成脚本
  * @param params - 脚本生成参数
- * @param params.topic - 脚本主题/选题
- * @param params.domain - 内容领域
- * @param params.duration - 脚本时长（分钟）
  * @returns 解析后的脚本内容、钩子、关键词等
  * @throws AI 调用失败时抛出错误
  */
-export async function generateScript(params: {
-  topic: string
-  domain: string
-  duration: number
-}) {
+export async function generateScript(params: GenerateScriptParams): Promise<ParsedScript> {
   // 检查配置
   checkAIConfig()
   
@@ -76,17 +92,28 @@ export async function generateScript(params: {
 }
 
 /**
+ * 默认选题 - 当 AI 生成失败时返回
+ * @param domain - 默认领域
+ * @returns 默认选题对象
+ */
+function getDefaultTopic(domain: string): GeneratedTopic {
+  return {
+    title: `${domain}中的有趣现象`,
+    domain,
+    duration: 5,
+    difficulty: 'MEDIUM',
+    tags: ['入门'],
+    outline: '现象描述 → 原理解释 → 实际应用'
+  }
+}
+
+/**
  * 使用 Kimi Code 生成选题
  * @param params - 选题生成参数
- * @param params.domains - 用户擅长的领域列表
- * @param params.userHistory - 用户历史选题（可选，用于避免重复）
  * @returns 生成的选题信息（标题、领域、时长、难度、标签、大纲）
  * @remarks 失败时返回默认选题而不是抛出错误
  */
-export async function generateTopic(params: {
-  domains: string[]
-  userHistory?: string[]
-}) {
+export async function generateTopic(params: GenerateTopicParams): Promise<GeneratedTopic> {
   const prompt = `请为知识博主生成一个选题。
 
 用户领域：${params.domains.join(', ')}
@@ -128,13 +155,6 @@ export async function generateTopic(params: {
   } catch (error) {
     console.error('AI generate topic error:', error)
     // 返回默认选题
-    return {
-      title: `${params.domains[0]}中的有趣现象`,
-      domain: params.domains[0],
-      duration: 5,
-      difficulty: 'MEDIUM',
-      tags: ['入门'],
-      outline: '现象描述 → 原理解释 → 实际应用'
-    }
+    return getDefaultTopic(params.domains[0] || '通用领域')
   }
 }
