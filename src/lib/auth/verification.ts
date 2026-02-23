@@ -1,4 +1,8 @@
-// 验证码存储（生产环境应使用 Redis）
+/**
+ * 验证码验证模块
+ * 提供手机号验证码的生成、存储和验证功能
+ * @remarks 当前使用内存存储，生产环境应使用 Redis
+ */
 
 /** 验证码记录结构 */
 interface VerificationRecord {
