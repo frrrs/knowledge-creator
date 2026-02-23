@@ -187,7 +187,7 @@ export default function SettingsPage() {
         
         {/* Version - TODO: 从 package.json 动态读取版本号 */}
         <p className="text-center text-gray-400 text-sm mt-8">
-          Knowledge Creator v0.1.66
+          Knowledge Creator v0.1.67
         </p>
       </main>
       

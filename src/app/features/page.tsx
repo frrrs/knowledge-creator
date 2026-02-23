@@ -18,7 +18,18 @@ import {
  * 展示应用核心功能入口，引导用户选择功能模块
  */
 
-const FEATURES = [
+/** 功能项类型 */
+interface FeatureItem {
+  id: string
+  name: string
+  description: string
+  icon: React.ComponentType<{ className?: string }>
+  color: string
+  badge: string | null
+}
+
+/** 功能列表 */
+const FEATURES: FeatureItem[] = [
   {
     id: 'today',
     name: '今日创作',
