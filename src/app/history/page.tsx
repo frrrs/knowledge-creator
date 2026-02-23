@@ -1,3 +1,8 @@
+/**
+ * 历史记录页面模块
+ * 展示用户已完成的任务历史，支持查看和回顾
+ */
+
 'use client'
 
 import { useEffect, useState } from 'react'
