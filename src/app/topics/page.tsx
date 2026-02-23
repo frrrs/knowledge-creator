@@ -1,3 +1,8 @@
+/**
+ * 选题推荐页面模块
+ * 展示AI推荐的精选选题，帮助用户发现创作灵感
+ */
+
 'use client'
 
 import { useRouter } from 'next/navigation'
