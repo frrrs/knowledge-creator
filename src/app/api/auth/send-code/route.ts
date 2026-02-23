@@ -1,3 +1,8 @@
+/**
+ * 发送验证码 API 路由
+ * 生成6位数字验证码并存储，用于手机号登录验证
+ */
+
 import { NextRequest } from 'next/server'
 import { successResponse, errorResponse } from '@/lib/utils/api'
 import { storeCode, generateCode } from '@/lib/auth/verification'
