@@ -3,6 +3,11 @@
 import { useState } from 'react'
 import { Check, SkipForward, Star, X } from 'lucide-react'
 
+/**
+ * 任务卡片组件
+ * 展示任务详情，支持完成、跳过、评分等操作
+ */
+
 /** 任务难度等级 */
 type Difficulty = 'EASY' | 'MEDIUM' | 'HARD'
 
