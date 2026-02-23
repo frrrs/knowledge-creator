@@ -64,6 +64,23 @@ interface ErrorResult {
 }
 
 /**
+ * 快速创建应用错误
+ * @param message - 错误消息
+ * @param code - 错误码
+ * @param statusCode - HTTP 状态码，默认 500
+ * @returns AppError 实例
+ * @example
+ * throw createError('任务不存在', ErrorCodes.TASK_NOT_FOUND, 404)
+ */
+export function createError(
+  message: string,
+  code: ErrorCode,
+  statusCode: number = 500
+): AppError {
+  return new AppError(message, code, statusCode)
+}
+
+/**
  * 统一处理错误
  * @param error - 未知类型的错误对象
  * @returns 标准化的错误结果
