@@ -35,10 +35,12 @@ export interface Task {
 
 /** 脚本钩子结构 */
 export interface ScriptHook {
-  /** 在脚本中的位置 */
-  position: number
+  /** 在脚本中的位置描述（如：开头、中间、结尾前） */
+  position: string
   /** 钩子文本内容 */
   text: string
+  /** 钩子类型（如：提问、悬念、观点征集） */
+  type?: string
 }
 
 /**
