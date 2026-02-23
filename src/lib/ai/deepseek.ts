@@ -1,3 +1,8 @@
+/**
+ * DeepSeek AI 服务模块
+ * 提供脚本生成和选题推荐的 AI 能力
+ */
+
 import OpenAI from 'openai'
 import { SYSTEM_PROMPT, buildPrompt, parseScript, type ScriptParams, type ParsedScript } from './prompts'
 
