@@ -1,3 +1,8 @@
+/**
+ * 首页模块
+ * 应用入口，根据用户认证状态进行页面重定向
+ */
+
 import { redirect } from 'next/navigation'
 
 /**
