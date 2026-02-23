@@ -4,7 +4,16 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, FileText, Copy, Check, Sparkles, Loader2 } from 'lucide-react'
 
-const SCRIPT_TEMPLATES = [
+/** 脚本模板项 */
+interface ScriptTemplate {
+  id: string
+  name: string
+  description: string
+  structure: string[]
+}
+
+/** 脚本模板列表 */
+const SCRIPT_TEMPLATES: ScriptTemplate[] = [
   {
     id: 'tutorial',
     name: '教程类',
