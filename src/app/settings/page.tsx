@@ -4,7 +4,22 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, User, Bell, Shield, LogOut, ChevronRight, Palette, Clock } from 'lucide-react'
 
-const SETTINGS_GROUPS = [
+/** 设置项 */
+interface SettingItem {
+  id: string
+  name: string
+  icon: React.ComponentType<{ className?: string }>
+  description: string
+}
+
+/** 设置组 */
+interface SettingGroup {
+  title: string
+  items: SettingItem[]
+}
+
+/** 设置分组列表 */
+const SETTINGS_GROUPS: SettingGroup[] = [
   {
     title: '账户',
     items: [
@@ -187,7 +202,7 @@ export default function SettingsPage() {
         
         {/* Version - TODO: 从 package.json 动态读取版本号 */}
         <p className="text-center text-gray-400 text-sm mt-8">
-          Knowledge Creator v0.1.69
+          Knowledge Creator v0.1.70
         </p>
       </main>
       
