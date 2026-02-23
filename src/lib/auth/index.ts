@@ -1,3 +1,9 @@
+/**
+ * JWT 认证模块
+ * 提供 Token 生成、验证和认证中间件功能
+ * @remarks 当前使用简易 Base64 实现，生产环境应使用 jsonwebtoken 库
+ */
+
 import { NextRequest, NextResponse } from 'next/server'
 
 // 简单的JWT实现（实际应使用jsonwebtoken库）
