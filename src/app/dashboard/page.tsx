@@ -1,3 +1,8 @@
+/**
+ * 仪表板页面模块
+ * 用户主界面，展示今日任务、脚本查看、任务操作等核心功能
+ */
+
 'use client'
 
 import { useEffect, useState } from 'react'
