@@ -4,6 +4,11 @@ import { useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { ChevronDown, ChevronUp, Target, Clock, MessageSquare, Sparkles, CheckCircle } from 'lucide-react'
 
+/**
+ * 脚本查看器组件
+ * 展示AI生成的口播脚本，支持分段查看和互动点标注
+ */
+
 /** 脚本分段结构 */
 interface ScriptSections {
   hook: string
