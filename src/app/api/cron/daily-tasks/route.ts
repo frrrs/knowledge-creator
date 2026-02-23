@@ -1,3 +1,9 @@
+/**
+ * 定时任务 API 路由
+ * 每日为用户自动生成创作任务
+ * @remarks 通过 Vercel Cron 触发，需要 CRON_SECRET 验证
+ */
+
 import { NextRequest } from 'next/server'
 import { PrismaClient, TaskDifficulty, TaskStatus } from '@prisma/client'
 
