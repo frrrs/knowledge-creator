@@ -2,27 +2,22 @@
 
 import { useState } from 'react'
 import { Check, SkipForward, Star, X } from 'lucide-react'
+import type { TaskDifficulty, TaskStatus } from '@/types'
 
 /**
  * 任务卡片组件
  * 展示任务详情，支持完成、跳过、评分等操作
  */
 
-/** 任务难度等级 */
-type Difficulty = 'EASY' | 'MEDIUM' | 'HARD'
-
-/** 任务状态 */
-type TaskStatus = 'PENDING' | 'COMPLETED' | 'SKIPPED'
-
 /** 难度样式映射 */
-const DIFFICULTY_STYLES: Record<Difficulty, string> = {
+const DIFFICULTY_STYLES: Record<TaskDifficulty, string> = {
   EASY: 'bg-green-100 text-green-800',
   MEDIUM: 'bg-yellow-100 text-yellow-800',
   HARD: 'bg-red-100 text-red-800'
 }
 
 /** 难度文本映射 */
-const DIFFICULTY_LABELS: Record<Difficulty, string> = {
+const DIFFICULTY_LABELS: Record<TaskDifficulty, string> = {
   EASY: '简单',
   MEDIUM: '中等',
   HARD: '困难'
@@ -42,7 +37,7 @@ interface TaskCardProps {
   title: string
   domain: string
   duration: number
-  difficulty: Difficulty
+  difficulty: TaskDifficulty
   status: TaskStatus
   userRating?: number
   onComplete?: () => void
