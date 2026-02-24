@@ -46,6 +46,10 @@ export async function GET(): Promise<NextResponse<HealthResponse>> {
     const response: HealthResponse = {
       status: 'error',
       timestamp: new Date().toISOString(),
+      services: {
+        database: 'disconnected',
+        api: 'running'
+      },
       error: 'Database connection failed'
     }
 
