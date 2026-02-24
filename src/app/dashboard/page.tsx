@@ -44,9 +44,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (isAuthenticated && !currentTask && !taskLoading) {
       const domains = user?.domains || JSON.parse(localStorage.getItem('domains') || '["经济学"]')
-      generateTask(domains).catch(() => {
-        // 错误已处理
-      })
+      generateTask(domains).catch(console.error)
     }
   }, [isAuthenticated, user, currentTask, taskLoading, generateTask])
   
