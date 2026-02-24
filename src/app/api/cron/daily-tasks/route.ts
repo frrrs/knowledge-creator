@@ -4,8 +4,8 @@
  * @remarks 通过 Vercel Cron 触发，需要 CRON_SECRET 验证
  */
 
-import { NextRequest } from 'next/server'
-import { PrismaClient, TaskDifficulty, TaskStatus } from '@prisma/client'
+import { NextRequest, NextResponse } from 'next/server'
+import { PrismaClient, TaskDifficulty } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
