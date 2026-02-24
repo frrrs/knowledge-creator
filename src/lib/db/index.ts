@@ -21,11 +21,15 @@ if (process.env.NODE_ENV !== 'production') {
 // ============================================
 // 用户相关操作
 // ============================================
-export async function createUser(data: {
+
+/** 创建用户参数 */
+interface CreateUserParams {
   phone?: string
   wechatId?: string
   domains: string[]
-}) {
+}
+
+export async function createUser(data: CreateUserParams) {
   return prisma.user.create({
     data: {
       ...data,
