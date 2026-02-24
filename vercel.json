@@ -6,6 +6,17 @@
     "NODE_ENV": "production"
   },
   "buildCommand": "prisma generate && next build",
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, max-age=0"
+        }
+      ]
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/daily-tasks",
