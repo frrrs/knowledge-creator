@@ -1,6 +1,6 @@
 {
   "name": "knowledge-creator",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "private": true,
   "description": "AI驱动的知识博主任务推送与脚本生成系统",
   "author": "Knowledge Creator Team",

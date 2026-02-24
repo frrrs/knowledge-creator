@@ -61,7 +61,7 @@ export function withAuth(handler: AuthHandler) {
     
     if (!token) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: '请先登录' },
         { status: 401 }
       )
     }
@@ -69,7 +69,7 @@ export function withAuth(handler: AuthHandler) {
     const payload = verifyToken(token)
     if (!payload) {
       return NextResponse.json(
-        { error: 'Invalid token' },
+        { error: '登录已过期，请重新登录' },
         { status: 401 }
       )
     }
