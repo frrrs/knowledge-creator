@@ -16,6 +16,9 @@ const verificationCodes = new Map<string, VerificationRecord>()
 /** 验证码有效期（毫秒） */
 const CODE_EXPIRY_MS = 5 * 60 * 1000 // 5分钟
 
+/** 验证码长度（位数） */
+const CODE_LENGTH = 6
+
 /**
  * 存储验证码
  * @param phone - 手机号
@@ -54,9 +57,11 @@ export function verifyCode(phone: string, code: string): boolean {
 }
 
 /**
- * 生成6位数字验证码
- * @returns 6位数字字符串
+ * 生成数字验证码
+ * @returns 指定长度的数字字符串（默认6位）
  */
 export function generateCode(): string {
-  return Math.random().toString().slice(2, 8)
+  const min = Math.pow(10, CODE_LENGTH - 1)
+  const max = Math.pow(10, CODE_LENGTH) - 1
+  return Math.floor(min + Math.random() * (max - min + 1)).toString()
 }
