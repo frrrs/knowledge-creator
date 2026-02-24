@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { ChevronDown, ChevronUp, Target, Clock, MessageSquare, Sparkles, CheckCircle } from 'lucide-react'
+import type { ScriptHook, ValidationResult } from '@/types'
 
 /**
  * 脚本查看器组件
@@ -17,19 +18,6 @@ interface ScriptSections {
   interaction: string
   ending: string
   fullContent: string
-}
-
-/** 互动点（钩子）结构 */
-interface ScriptHook {
-  position: string
-  text: string
-  type: string
-}
-
-/** 验证结果结构 */
-interface ValidationResult {
-  isValid: boolean
-  issues: string[]
 }
 
 /** 分段配置项 */
