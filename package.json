@@ -1,6 +1,6 @@
 {
   "name": "knowledge-creator",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "private": true,
   "description": "AI驱动的知识博主任务推送与脚本生成系统",
   "author": "Knowledge Creator Team",
@@ -15,7 +15,8 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
     "type-check": "tsc --noEmit",
-    "validate": "node -e 'JSON.parse(require(\"fs\").readFileSync(\"package.json\"))' && echo 'package.json is valid'"
+    "validate": "node -e 'JSON.parse(require(\"fs\").readFileSync(\"package.json\"))' && echo 'package.json is valid'",
+    "check": "npm run type-check && npm run lint"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
